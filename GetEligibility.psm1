@@ -5,7 +5,7 @@ Import-Module ImportExcel
 $excelFilePath = "\\tor-75r5pz3\SharedFiles\ALIGN INVENTORY.xlsx"
 
 # Function to get the eligibility date for a given personal name
-function Get-EligibilityDate {
+function Get-EligibilityDateTest {
     param (
         [string]$employeeName
     )
@@ -36,6 +36,3 @@ function Get-EligibilityDate {
         Write-Output "No records found for '$employeeName' in the Wireless Inventory sheet."
     }
 }
-
-# Example usage:
-# Get-EligibilityDate -employeeName "John Doe"
