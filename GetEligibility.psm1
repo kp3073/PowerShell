@@ -2,7 +2,8 @@
 Import-Module ImportExcel
 
 # Define the path to your Excel file
-$excelFilePath = "\\tor-75r5pz3\SharedFiles\ALIGN INVENTORY.xlsx"
+$excelFilePath = "\\DEVITSD01\PSAlign\ALIGN INVENTORY.xlsx"
+# "\\tor-75r5pz3\SharedFiles\ALIGN INVENTORY.xlsx"
 
 # Function to get the eligibility date for a given personal name
 function Get-EligibilityDateTest {
