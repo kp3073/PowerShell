@@ -1,3 +1,7 @@
+if (-not (Get-Module -ListAvailable -Name ImportExcel)) {
+    Write-Output "ImportExcel module not found. Installing..."
+    Install-Module -Name ImportExcel -Scope CurrentUser -Force
+}
 # Import the required module
 Import-Module ImportExcel
 
