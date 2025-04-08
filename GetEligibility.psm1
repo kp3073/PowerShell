@@ -10,7 +10,7 @@ $excelFilePath = "\\DEVITSD01\PSAlign\ALIGN INVENTORY.xlsx"
 # "\\tor-75r5pz3\SharedFiles\ALIGN INVENTORY.xlsx"
 
 # Function to get the eligibility date for a given personal name
-function Get-EligibilityDateTest {
+function Get-EligibilityDate {
     param (
         [string]$employeeName
     )
