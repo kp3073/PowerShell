@@ -10,39 +10,30 @@ $excelFilePath = "\\DEVITSD01\PSAlign\ALIGN INVENTORY.xlsx"
 # "\\tor-75r5pz3\SharedFiles\ALIGN INVENTORY.xlsx"
 
 # Function to get the eligibility date for a given personal name
-function Get-EligibilityDate {
+
+function Get-eligibilityDate {
     param (
         [string]$employeeName
     )
-
-    # Check if the file exists
-    if (-Not (Test-Path $excelFilePath)) {
-        Write-Error "Excel file not found at path: $excelFilePath"
-        return
-    }
 
     # Read the Wireless Inventory sheet
     $Inventory = Import-Excel -Path $excelFilePath -WorksheetName "Wireless Inventory"
 
     # Filter the data to find rows with the given personal name and device model
     $rows = $Inventory | Where-Object { 
-        $_.Personnel -like "*$employeeName*" -and ($_. 'Device Model' -match "Apple iPhone|Samsung")
+        $_.Personnel -like "*$employeeName*" -and ($_. 'Device Model' -like "Apple iPhone *" -or $_.'Device Model' -like "Samsung *")
     }
 
     if ($rows) {
-        $rows | ForEach-Object {
+        foreach ($row in $rows) {
+            # Create a PSCustomObject with the eligibility date and device model
             [PSCustomObject]@{
-            'Name'            = $_.'Personnel'
-            'DeviceModel'     = $_.'Device Model'
-            'EligibilityDate' = if ($_. 'Upgrade eligibility date') { 
-                ($_. 'Upgrade eligibility date').ToString("dd MMMM yyyy") 
-            } else { 
-                "N/A" 
+                Name            = $row.'Personnel'
+                DeviceModel     = $row.'Device Model'
+                EligibilityDate = ([datetime]$row.'Upgrade eligibility date').ToString("dd MMMM yyyy")
             }
-            }
-        } | Format-Table -AutoSize
+        }
     } else {
-        Write-Output "No records found for '$employeeName' in the Wireless Inventory sheet."
+        Write-Output "Employee name not found in the Wireless Inventory sheet."
     }
-    
 }
