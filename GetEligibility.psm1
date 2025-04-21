@@ -32,9 +32,13 @@ function Get-EligibilityDate {
     if ($rows) {
         $rows | ForEach-Object {
             [PSCustomObject]@{
-                Name            = $row.'Personnel'
-                DeviceModel     = $row.'Device Model'
-                EligibilityDate = ([datetime]$row.'Upgrade eligibility date').ToString("dd MMMM yyyy")
+            'Name'            = $_.'Personnel'
+            'DeviceModel'     = $_.'Device Model'
+            'EligibilityDate' = if ($_. 'Upgrade eligibility date') { 
+                ($_. 'Upgrade eligibility date').ToString("dd MMMM yyyy") 
+            } else { 
+                "N/A" 
+            }
             }
         } | Format-Table -AutoSize
     } else {
