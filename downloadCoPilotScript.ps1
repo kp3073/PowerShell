@@ -1,4 +1,4 @@
-$moduleName = "CoPilotGroupMembers"
+$moduleName = "MSGraph-GroupReport"
 $modulePath = "$env:ProgramFiles\WindowsPowerShell\Modules\$moduleName"
 New-Item -ItemType Directory -Path $modulePath -Force
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/kp3073/PowerShell/main/CoPilotGroupMembers.psm1" -OutFile "$modulePath\$moduleName.psm1"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/kp3073/PowerShell/main/MSGraph-GroupReport.psm1" -OutFile "$modulePath\$moduleName.psm1"
