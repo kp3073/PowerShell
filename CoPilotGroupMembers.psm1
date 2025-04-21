@@ -1,4 +1,4 @@
-function Get-CoPilotGroupMembers {
+function Export-MSGraphGroupMembers {
     [CmdletBinding()]
     param ()
 
