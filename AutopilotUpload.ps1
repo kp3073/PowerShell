@@ -1,49 +1,38 @@
-<#
-.SYNOPSIS
-Uploads device info to Intune Autopilot using app-only authentication.
-.PARAMETER ClientSecret
-Client secret passed at runtime.
-.EXAMPLE
-.\AutopilotUpload.ps1 -ClientSecret "your-secret"
-#>
-
 param (
     [Parameter(Mandatory = $true)]
     [string]$ClientSecret
 )
 
-# === Configurable values ===
-$clientId  = "ba0012fe-032f-400a-8490-47c29dfd7c60"
-$tenantId  = "9ac44c96-980a-481b-ae23-d8f56b82c605"
-$groupTag  = "SJC"
+# Define your Azure AD app credentials here
+$ClientId = "YOUR-CLIENT-ID"     # Replace this
+$TenantId = "YOUR-TENANT-ID"     # Replace this
 
-# === Ensure modules ===
-$modules = @("Microsoft.Graph.Authentication", "Microsoft.Graph.DeviceManagement", "Get-WindowsAutopilotInfo")
-foreach ($module in $modules) {
-    if (-not (Get-Module -ListAvailable -Name $module)) {
-        Install-Module -Name $module -Force -Scope CurrentUser
-    }
+# Install required module if missing
+if (-not (Get-Module -ListAvailable -Name Microsoft.Graph.DeviceManagement)) {
+    Install-Module Microsoft.Graph.DeviceManagement -Force -Scope CurrentUser
 }
+Import-Module Microsoft.Graph.DeviceManagement
 
-# === Auth with client secret passed via parameter ===
-$secureSecret = ConvertTo-SecureString -String $ClientSecret -AsPlainText -Force
-
+# Authenticate using client secret
 try {
-    Connect-MgGraph -ClientId $clientId -TenantId $tenantId -ClientSecret $secureSecret
-    Write-Host "✅ Connected to Microsoft Graph." -ForegroundColor Green
+    Connect-MgGraph -ClientId $ClientId -TenantId $TenantId -ClientSecret $ClientSecret
+    Write-Host "✅ Authenticated to Microsoft Graph." -ForegroundColor Green
 }
 catch {
     Write-Error "❌ Authentication failed: $_"
-    exit 1
+    exit
 }
 
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
+# Install required Autopilot script if missing
+if (-not (Get-Command Get-WindowsAutopilotInfo -ErrorAction SilentlyContinue)) {
+    Install-Script -Name Get-WindowsAutopilotInfo -Force -Scope CurrentUser
+}
 
+# Run Autopilot upload
 try {
-    Get-WindowsAutopilotInfo -GroupTag $groupTag -Online
-    Write-Host "✅ Device uploaded to Autopilot with GroupTag '$groupTag'" -ForegroundColor Green
+    Get-WindowsAutopilotInfo -Online -GroupTag "SJC"
+    Write-Host "✅ Autopilot info uploaded successfully." -ForegroundColor Green
 }
 catch {
-    Write-Error "❌ Failed to upload to Autopilot: $_"
-    exit 1
+    Write-Error "❌ Failed to upload Autopilot info: $_"
 }
