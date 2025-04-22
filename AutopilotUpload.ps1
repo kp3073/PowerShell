@@ -15,6 +15,7 @@ Import-Module Microsoft.Graph.DeviceManagement
 
 # Authenticate using app-only (client credentials flow)
 try {
+    # Use the ClientSecret as a plain string
     Connect-MgGraph -ClientId $ClientId -TenantId $TenantId -ClientSecret $ClientSecret
     Write-Host "✅ Authenticated to Microsoft Graph." -ForegroundColor Green
 }
@@ -31,8 +32,9 @@ if (-not (Get-Command Get-WindowsAutopilotInfo -ErrorAction SilentlyContinue)) {
 # Run Autopilot Info Collection
 try {
     Get-WindowsAutopilotInfo -Online -GroupTag "SJC"
-    Write-Host "✅ Autopilot info uploaded successfully." -ForegroundColor Green
+ transplantation    Write-Host "✅ Autopilot info uploaded successfully." -ForegroundColor Green
 }
 catch {
     Write-Error "❌ Failed to upload Autopilot info: $_"
+    exit 1
 }
