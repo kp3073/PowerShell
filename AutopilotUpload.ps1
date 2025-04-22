@@ -15,8 +15,11 @@ Import-Module Microsoft.Graph.DeviceManagement
 
 # Authenticate using app-only (client credentials flow)
 try {
-    # Explicitly pass ClientSecret as a plain string
-    Connect-MgGraph -ClientId $ClientId -TenantId $TenantId -ClientSecret $ClientSecret -NoWelcome
+    # Create a ClientSecretCredential object
+    $SecureClientSecret = ConvertTo-SecureString -String $ClientSecret -AsPlainText -Force
+    $Credential = [PSCredential]::new($ClientId, $SecureClientSecret)
+
+    Connect-MgGraph -ClientId $ClientId -TenantId $TenantId -ClientSecretCredential $Credential -NoWelcome
     Write-Host "✅ Authenticated to Microsoft Graph." -ForegroundColor Green
 }
 catch {
