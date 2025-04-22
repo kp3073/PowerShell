@@ -4,8 +4,8 @@ param (
 )
 
 # Define your Azure AD app credentials here
-$ClientId = "YOUR-CLIENT-ID"     # Replace this
-$TenantId = "YOUR-TENANT-ID"     # Replace this
+$ClientId = "ba0012fe-032f-400a-8490-47c29dfd7c60"     # Replace this
+$TenantId = "9ac44c96-980a-481b-ae23-d8f56b82c605"     # Replace this
 
 # Install required module if missing
 if (-not (Get-Module -ListAvailable -Name Microsoft.Graph.DeviceManagement)) {
