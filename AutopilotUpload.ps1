@@ -29,7 +29,7 @@ foreach ($module in $modules) {
 $secureSecret = ConvertTo-SecureString -String $ClientSecret -AsPlainText -Force
 
 try {
-    Connect-MgGraph -ClientId $clientId -TenantId $tenantId -ClientSecret $secureSecret -ErrorAction Stop
+    Connect-MgGraph -ClientId $clientId -TenantId $tenantId -ClientSecret $secureSecret
     Write-Host "✅ Connected to Microsoft Graph." -ForegroundColor Green
 }
 catch {
