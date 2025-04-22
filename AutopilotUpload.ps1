@@ -13,8 +13,8 @@ param (
 )
 
 # === Configurable values ===
-$clientId  = "YOUR_CLIENT_ID_HERE"
-$tenantId  = "YOUR_TENANT_ID_HERE"
+$clientId  = "ba0012fe-032f-400a-8490-47c29dfd7c60"
+$tenantId  = "9ac44c96-980a-481b-ae23-d8f56b82c605"
 $groupTag  = "SJC"
 
 # === Ensure modules ===
