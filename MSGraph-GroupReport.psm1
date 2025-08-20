@@ -41,3 +41,6 @@ if (Get-Module -Name $moduleName) {
 else {
     Write-Host "❌ Failed to import module '$moduleName'."
 }
+
+Export-ModuleMember -Function Get-GroupReport
+
